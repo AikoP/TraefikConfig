@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+
+  traefik:
+    image: traefik:v2.4
+    # command: --docker --docker.domain=aikopipo.de
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - proxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik.toml:/traefik.toml
+      - ./acme.json:/acme.json
+    # labels:
+      # - "traefik.frontend.rule=Host:traefik.aikopipo.de"
+      # - "traefik.port=8080"
+
+      # - "traefik.http.routers.nas.entrypoints=http"
+      # - "traefik.http.routers.nas.rule=Host:aikopipo.de"
+      # - "traefik.http.routers.nas.service=nas@file"
+      # - "traefik.port=8030"
+
+      # - "traefik.http.services.{SERVICE}.loadbalancer.server.port=8500"
+      # - "traefik.docker.network=proxy"
+      # - "traefik.http.routers.{SERVICE}.rule=Host(`{DOMAIN}`)"
+
+
+    container_name: traefik
+    restart: always
+
+networks:
+  proxy:
+    external: true

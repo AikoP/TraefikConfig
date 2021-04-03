@@ -1,36 +1,26 @@
-version: '3'
+version: "3.3"
 
 services:
 
   traefik:
-    image: traefik:v2.4
-    # command: --docker --docker.domain=aikopipo.de
+    image: "traefik:v2.4"
+    container_name: "traefik"
+    command:
+      #- "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
     ports:
-      - 80:80
-      - 443:443
-    networks:
-      - proxy
+      - "80:80"
+      - "8080:8080"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./traefik.toml:/traefik.toml
-      - ./acme.json:/acme.json
-    # labels:
-      # - "traefik.frontend.rule=Host:traefik.aikopipo.de"
-      # - "traefik.port=8080"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
-      # - "traefik.http.routers.nas.entrypoints=http"
-      # - "traefik.http.routers.nas.rule=Host:aikopipo.de"
-      # - "traefik.http.routers.nas.service=nas@file"
-      # - "traefik.port=8030"
-
-      # - "traefik.http.services.{SERVICE}.loadbalancer.server.port=8500"
-      # - "traefik.docker.network=proxy"
-      # - "traefik.http.routers.{SERVICE}.rule=Host(`{DOMAIN}`)"
-
-
-    container_name: traefik
-    restart: always
-
-networks:
-  proxy:
-    external: true
+  whoami:
+    image: "traefik/whoami"
+    container_name: "simple-service"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.localhost`)"
+      - "traefik.http.routers.whoami.entrypoints=web"
