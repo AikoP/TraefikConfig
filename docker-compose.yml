@@ -3,7 +3,7 @@ version: '3'
 services:
 
   traefik:
-    image: traefik:1.7
+    image: traefik:2.0
     command: --docker --docker.domain=aikopipo.de
     ports:
       - 80:80
