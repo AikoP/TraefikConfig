@@ -15,11 +15,11 @@ services:
       - ./traefik.toml:/traefik.toml
       - ./acme.json:/acme.json
     labels:
-      - "traefik.frontend.rule=Host:traefik.aikopipo.de"
-      - "traefik.port=8080"
+      # - "traefik.frontend.rule=Host:traefik.aikopipo.de"
+      # - "traefik.port=8080"
 
       - "traefik.http.routers.nas.entrypoints=http"
-      - "traefik.http.routers.nas.rule=Host(`aikopipo.de`)"
+      - "traefik.http.routers.nas.rule=Host:aikopipo.de"
       - "traefik.http.routers.nas.service=nas@file"
 
 
