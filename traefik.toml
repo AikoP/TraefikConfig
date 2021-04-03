@@ -62,7 +62,7 @@
             rule = "Host(`aikopipo.de`)"
             service = "nodejs"
         [http.routers.my-api]
-            rule = "Host(`traefik.domain.com`)"
+            rule = "Host(`traefik.aikopipo.de`)"
             service = "api@internal"
             middlewares = ["auth"]
 
