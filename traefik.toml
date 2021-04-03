@@ -15,20 +15,25 @@
 # [web.auth.basic]
 # users = ["ubuntu:$apr1$hSUuL0gz$Ux0.27vof2P4297HK78P9/"]
 
-[api]
-    dashboard = true
-
 #Define the HTTP port 80 and
 #HTTPS port 443 EntryPoint
 #Enable automatically redirect HTTP to HTTPS
 [entryPoints]
     [entryPoints.http]
-    address = ":80"
+        address = ":80"
         [entryPoints.http.redirect]
-        entryPoint = "https"
+            entryPoint = "https"
     [entryPoints.https]
-    address = ":443"
-        [entryPoints.https.tls]
+        address = ":443"
+            [entryPoints.https.tls]
+
+[log]
+
+[accessLog]
+
+[api]
+    dashboard = true
+
 
 # [frontends]
 #   [frontends.traefik]
@@ -45,12 +50,12 @@
 
 [http]
     [http.routers]
-    [http.routers.traefik]
-        rule = "Host(`traefik.aikopipo.de`)"
-        service = "traefik"
-    [http.routers.nodejs]
-        rule = "Host(`aikopipo.de`)"
-        service = "nodejs"
+        [http.routers.traefik]
+            rule = "Host(`traefik.aikopipo.de`)"
+            service = "traefik"
+        [http.routers.nodejs]
+            rule = "Host(`aikopipo.de`)"
+            service = "nodejs"
 
     [http.services]
         [http.services.traefik.loadBalancer]
