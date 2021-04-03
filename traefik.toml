@@ -34,8 +34,7 @@
 
 [accessLog]
 
-[api]
-    dashboard = true
+
 
 
 # [frontends]
@@ -51,19 +50,29 @@
 #     [frontends.nodejs.passTLSClientCert]
 #         pem = true
 
+[api]
+    dashboard = true
+
 [http]
     [http.routers]
-        [http.routers.traefik]
-            rule = "Host(`traefik.aikopipo.de`)"
-            service = "traefik"
+        # [http.routers.traefik]
+        #     rule = "Host(`traefik.aikopipo.de`)"
+        #     service = "traefik"
         [http.routers.nodejs]
             rule = "Host(`aikopipo.de`)"
             service = "nodejs"
+        [http.routers.my-api]
+            rule = "Host(`traefik.domain.com`)"
+            service = "api@internal"
+            middlewares = ["auth"]
+
+    [http.middlewares.auth.basicAuth]
+        users = ["ubuntu:$apr1$hSUuL0gz$Ux0.27vof2P4297HK78P9/"]
 
     [http.services]
-        [http.services.traefik.loadBalancer]
-            [[http.servicestraefik.loadBalancer.servers]]
-                url = "https://traefik.aikopipo.de:8080/"
+        # [http.services.traefik.loadBalancer]
+        #     [[http.servicestraefik.loadBalancer.servers]]
+        #         url = "https://traefik.aikopipo.de:8080/"
         [http.services.nodejs.loadBalancer]
             [[http.servicestraefik.loadBalancer.servers]]
                 url = "http://aikopipo.de:8443/"
@@ -101,7 +110,7 @@
 [acme]
     OnHostRule = true
     email = "aiko.pipo@hotmail.de"
-    entryPoint = "https"
+    entryPoint = "websecure"
     storage = "acme.json"
     # [acme.httpChallenge]
     #     entryPoint = "http"
