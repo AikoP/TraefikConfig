@@ -11,6 +11,7 @@ defaultEntryPoints = ["https", "http"]
 #mohammad and password
 [web]
 address = ":8080"
+
 [web.auth.basic]
 users = ["ubuntu:$apr1$hSUuL0gz$Ux0.27vof2P4297HK78P9/"]
 
@@ -18,36 +19,65 @@ users = ["ubuntu:$apr1$hSUuL0gz$Ux0.27vof2P4297HK78P9/"]
 #HTTPS port 443 EntryPoint
 #Enable automatically redirect HTTP to HTTPS
 [entryPoints]
-[entryPoints.http]
-address = ":80"
-# [entryPoints.http.redirect]
-# entryPoint = "https"
-[entryPoints.https]
-address = ":443"
-[entryPoints.https.tls]
+    [entryPoints.http]
+    address = ":80"
+        [entryPoints.http.redirect]
+        entryPoint = "https"
+    [entryPoints.https]
+    address = ":443"
+        [entryPoints.https.tls]
+
+[frontends]
+  [frontends.traefik]
+    backend = "traefik"
+    [frontends.traefik.routes.test_1]
+        rule = "Host:traefik.aikopipo.de"
+  [frontends.nodejs]
+    backend = "nodejs"
+    passHostHeader = true
+    [frontends.nodejs.routes.test_1]
+        rule = "Host:aikopipo.de"
+    [frontends.nodejs.passTLSClientCert]
+        pem = true
+
+[backends]
+  [backends.traefik]
+    # traefik dashboard
+    [backends.backend1.servers.server1]
+    url = "https://traefik.aikopipo.de:8080"
+    weight = 1
+  [backends.nodejs]
+    # nodeJS server
+    [backends.backend2.servers.server1]
+    url = "http://aikopipo.de:8443"
+    weight = 1
 
 # [providers.http]
 #   endpoint = "http://aikopipo.de:8030"
-
-[providers.file]
-filename = "/home/ubuntu/TraefikConfig/services.toml"
+# [providers.file]
+# filename = "/home/ubuntu/TraefikConfig/services.toml"
 
 #Enable retry sending a request if the network error
 [retry]
 
 #Define Docker Backend Configuration
 [docker]
-domain = "traefik.aikopipo.de"
-endpoint = "unix:///var/run/docker.sock"
-exposedbydefault = false
-watch = true
+    domain = "traefik.aikopipo.de"
+    endpoint = "unix:///var/run/docker.sock"
+    exposedbydefault = false
+    watch = true
 
 #Letsencrypt Registration
 #Define the Letsencrypt ACME HTTP challenge
 [acme]
-OnHostRule = true
-email = "aiko.pipo@hotmail.de"
-entryPoint = "https"
-storage = "acme.json"
-[acme.httpChallenge]
-entryPoint = "http"
+    OnHostRule = true
+    email = "aiko.pipo@hotmail.de"
+    entryPoint = "https"
+    storage = "acme.json"
+    # [acme.httpChallenge]
+    #     entryPoint = "http"
+    [acme.dnsChallenge]
+        provider = "digitalocean"
+        delayBeforeCheck = 0
+    [[acme.domains]]
+        main = "*.aikopipo.de"
