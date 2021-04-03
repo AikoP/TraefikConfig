@@ -19,13 +19,16 @@
 #HTTPS port 443 EntryPoint
 #Enable automatically redirect HTTP to HTTPS
 [entryPoints]
-    [entryPoints.http]
+    [entryPoints.web]
         address = ":80"
-        [entryPoints.http.redirect]
-            entryPoint = "https"
-    [entryPoints.https]
+        [entryPoints.web.http]
+            [entryPoints.web.http.redirections]
+                [entryPoints.web.http.redirections.entryPoint]
+                    to = "websecure"
+                    scheme = "https"
+
+    [entryPoints.websecure]
         address = ":443"
-            [entryPoints.https.tls]
 
 [log]
 
