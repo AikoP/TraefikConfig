@@ -1,10 +1,10 @@
 #Traefik Global Configuration
-debug = false
 checkNewVersion = true
+debug = false
 logLevel = "ERROR"
 
 #Define the EntryPoint for HTTP and HTTPS
-defaultEntryPoints = ["https","http"]
+defaultEntryPoints = ["https", "http"]
 
 #Enable Traefik Dashboard on port 8080
 #with basic authentication method
@@ -26,22 +26,25 @@ entryPoint = "https"
 address = ":443"
 [entryPoints.https.tls]
 
+[providers.http]
+  endpoint = "http://aikopipo.de:8030"
+
 #Enable retry sending a request if the network error
 [retry]
 
 #Define Docker Backend Configuration
 [docker]
-endpoint = "unix:///var/run/docker.sock"
 domain = "traefik.aikopipo.de"
-watch = true
+endpoint = "unix:///var/run/docker.sock"
 exposedbydefault = false
+watch = true
 
 #Letsencrypt Registration
 #Define the Letsencrypt ACME HTTP challenge
 [acme]
-email = "aiko.pipo@hotmail.de"
-storage = "acme.json"
-entryPoint = "https"
 OnHostRule = true
-  [acme.httpChallenge]
-  entryPoint = "http"
+email = "aiko.pipo@hotmail.de"
+entryPoint = "https"
+storage = "acme.json"
+[acme.httpChallenge]
+entryPoint = "http"
