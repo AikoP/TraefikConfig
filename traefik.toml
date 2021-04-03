@@ -58,9 +58,9 @@
         # [http.routers.traefik]
         #     rule = "Host(`traefik.aikopipo.de`)"
         #     service = "traefik"
-        [http.routers.nodejs]
-            rule = "Host(`aikopipo.de`)"
-            service = "nodejs"
+        # [http.routers.nodejs]
+        #     rule = "Host(`aikopipo.de`)"
+        #     service = "nodejs"
         [http.routers.my-api]
             rule = "Host(`traefik.aikopipo.de`)"
             service = "api@internal"
@@ -69,13 +69,13 @@
     [http.middlewares.auth.basicAuth]
         users = ["ubuntu:$apr1$hSUuL0gz$Ux0.27vof2P4297HK78P9/"]
 
-    [http.services]
+    # [http.services]
         # [http.services.traefik.loadBalancer]
         #     [[http.servicestraefik.loadBalancer.servers]]
         #         url = "https://traefik.aikopipo.de:8080/"
-        [http.services.nodejs.loadBalancer]
-            [[http.servicestraefik.loadBalancer.servers]]
-                url = "http://aikopipo.de:8443/"
+        # [http.services.nodejs.loadBalancer]
+        #     [[http.servicestraefik.loadBalancer.servers]]
+        #         url = "http://aikopipo.de:8443/"
 
 
 # [backends]
@@ -112,10 +112,10 @@
     email = "aiko.pipo@hotmail.de"
     entryPoint = "websecure"
     storage = "acme.json"
-    # [acme.httpChallenge]
-    #     entryPoint = "http"
-    [acme.dnsChallenge]
-        provider = "digitalocean"
-        delayBeforeCheck = 0
-    [[acme.domains]]
-        main = "*.aikopipo.de"
+    [acme.httpChallenge]
+        entryPoint = "http"
+    # [acme.dnsChallenge]
+    #     provider = "digitalocean"
+    #     delayBeforeCheck = 0
+    # [[acme.domains]]
+    #     main = "*.aikopipo.de"
