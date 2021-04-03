@@ -20,8 +20,8 @@ users = ["ubuntu:$apr1$hSUuL0gz$Ux0.27vof2P4297HK78P9/"]
 [entryPoints]
 [entryPoints.http]
 address = ":80"
-[entryPoints.http.redirect]
-entryPoint = "https"
+# [entryPoints.http.redirect]
+# entryPoint = "https"
 [entryPoints.https]
 address = ":443"
 [entryPoints.https.tls]
