@@ -4,7 +4,7 @@ services:
 
   traefik:
     image: traefik:1.7
-    command: --docker --docker.domain=aikopipo.de
+    command: --docker --docker.domain=aikopipo.de --certificatesresolvers.myhttpchallenge.acme.httpchallenge.entrypoint=web
     ports:
       - 80:80
       - 443:443
