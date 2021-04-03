@@ -99,16 +99,16 @@
 # [retry]
 
 #Define Docker Backend Configuration
-# [docker]
-#     domain = "traefik.aikopipo.de"
-#     endpoint = "unix:///var/run/docker.sock"
-#     exposedbydefault = false
-#     watch = true
+[docker]
+    domain = "traefik.aikopipo.de"
+    endpoint = "unix:///var/run/docker.sock"
+    exposedbydefault = false
+    watch = true
 
 #Letsencrypt Registration
 #Define the Letsencrypt ACME HTTP challenge
 [acme]
-    OnHostRule = true
+    # OnHostRule = true
     email = "aiko.pipo@hotmail.de"
     entryPoint = "websecure"
     storage = "acme.json"
