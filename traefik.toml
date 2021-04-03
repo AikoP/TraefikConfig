@@ -26,8 +26,11 @@ entryPoint = "https"
 address = ":443"
 [entryPoints.https.tls]
 
-[providers.http]
-  endpoint = "http://aikopipo.de:8030"
+# [providers.http]
+#   endpoint = "http://aikopipo.de:8030"
+
+[providers.file]
+filename = "/home/ubuntu/TraefikConfig/services.toml"
 
 #Enable retry sending a request if the network error
 [retry]

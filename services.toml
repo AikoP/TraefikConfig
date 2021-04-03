@@ -1,0 +1,6 @@
+[http]
+  [http.services]
+    [http.services.nas]
+      [http.services.nas.loadBalancer]
+        [[http.services.nas.loadBalancer.servers]]
+          url = "http://aikopipo.de:8030/"
