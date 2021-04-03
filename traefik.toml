@@ -1,10 +1,10 @@
-#Traefik Global Configuration
-checkNewVersion = true
-debug = true
-logLevel = "INFO"
+# #Traefik Global Configuration
+# checkNewVersion = true
+# debug = true
+# logLevel = "INFO"
 
 #Define the EntryPoint for HTTP and HTTPS
-defaultEntryPoints = ["https", "http"]
+# defaultEntryPoints = ["https", "http"]
 
 #Enable Traefik Dashboard on port 8080
 #with basic authentication method
@@ -14,6 +14,9 @@ defaultEntryPoints = ["https", "http"]
 
 # [web.auth.basic]
 # users = ["ubuntu:$apr1$hSUuL0gz$Ux0.27vof2P4297HK78P9/"]
+
+[api]
+    dashboard = true
 
 #Define the HTTP port 80 and
 #HTTPS port 443 EntryPoint
@@ -27,30 +30,48 @@ defaultEntryPoints = ["https", "http"]
     address = ":443"
         [entryPoints.https.tls]
 
-[frontends]
-  [frontends.traefik]
-    backend = "traefik"
-    [frontends.traefik.routes.test_1]
-        rule = "Host:traefik.aikopipo.de"
-  [frontends.nodejs]
-    backend = "nodejs"
-    passHostHeader = true
-    [frontends.nodejs.routes.test_1]
-        rule = "Host:aikopipo.de"
-    [frontends.nodejs.passTLSClientCert]
-        pem = true
+# [frontends]
+#   [frontends.traefik]
+#     backend = "traefik"
+#     [frontends.traefik.routes.test_1]
+#         rule = "Host:traefik.aikopipo.de"
+#   [frontends.nodejs]
+#     backend = "nodejs"
+#     passHostHeader = true
+#     [frontends.nodejs.routes.test_1]
+#         rule = "Host:aikopipo.de"
+#     [frontends.nodejs.passTLSClientCert]
+#         pem = true
 
-[backends]
-  [backends.traefik]
-    # traefik dashboard
-    [backends.backend1.servers.server1]
-    url = "https://traefik.aikopipo.de:8080"
-    weight = 1
-  [backends.nodejs]
-    # nodeJS server
-    [backends.backend2.servers.server1]
-    url = "http://aikopipo.de:8443"
-    weight = 1
+[http]
+    [http.routers]
+    [http.routers.traefik]
+        rule = "Host(`traefik.aikopipo.de`)"
+        service = "traefik"
+    [http.routers.nodejs]
+        rule = "Host(`aikopipo.de`)"
+        service = "nodejs"
+
+    [http.services]
+        [http.services.traefik.loadBalancer]
+            [[http.servicestraefik.loadBalancer.servers]]
+                url = "https://traefik.aikopipo.de:8080/"
+        [http.services.nodejs.loadBalancer]
+            [[http.servicestraefik.loadBalancer.servers]]
+                url = "http://aikopipo.de:8443/"
+
+
+# [backends]
+#   [backends.traefik]
+#     # traefik dashboard
+#     [backends.backend1.servers.server1]
+#     url = "https://traefik.aikopipo.de:8080"
+#     weight = 1
+#   [backends.nodejs]
+#     # nodeJS server
+#     [backends.backend2.servers.server1]
+#     url = "http://aikopipo.de:8443"
+#     weight = 1
 
 # [providers.http]
 #   endpoint = "http://aikopipo.de:8030"
@@ -58,14 +79,14 @@ defaultEntryPoints = ["https", "http"]
 # filename = "/home/ubuntu/TraefikConfig/services.toml"
 
 #Enable retry sending a request if the network error
-[retry]
+# [retry]
 
 #Define Docker Backend Configuration
-[docker]
-    domain = "traefik.aikopipo.de"
-    endpoint = "unix:///var/run/docker.sock"
-    exposedbydefault = false
-    watch = true
+# [docker]
+#     domain = "traefik.aikopipo.de"
+#     endpoint = "unix:///var/run/docker.sock"
+#     exposedbydefault = false
+#     watch = true
 
 #Letsencrypt Registration
 #Define the Letsencrypt ACME HTTP challenge
