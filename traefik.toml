@@ -1,7 +1,7 @@
 #Traefik Global Configuration
 checkNewVersion = true
-debug = false
-logLevel = "ERROR"
+debug = true
+logLevel = "INFO"
 
 #Define the EntryPoint for HTTP and HTTPS
 defaultEntryPoints = ["https", "http"]
@@ -9,11 +9,11 @@ defaultEntryPoints = ["https", "http"]
 #Enable Traefik Dashboard on port 8080
 #with basic authentication method
 #mohammad and password
-[web]
-address = ":8080"
+# [web]
+# address = ":8080"
 
-[web.auth.basic]
-users = ["ubuntu:$apr1$hSUuL0gz$Ux0.27vof2P4297HK78P9/"]
+# [web.auth.basic]
+# users = ["ubuntu:$apr1$hSUuL0gz$Ux0.27vof2P4297HK78P9/"]
 
 #Define the HTTP port 80 and
 #HTTPS port 443 EntryPoint
